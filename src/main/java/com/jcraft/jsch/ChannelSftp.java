@@ -224,7 +224,7 @@ public class ChannelSftp extends ChannelSession{
 
       PipedOutputStream pos=new PipedOutputStream();
       io.setOutputStream(pos);
-      PipedInputStream pis=new MyPipedInputStream(pos, rmpsize);
+      PipedInputStream pis=new MyPipedInputStream(pos, rq.size()*rmpsize);
       io.setInputStream(pis);
 
       io_in=io.in;
@@ -803,9 +803,6 @@ public class ChannelSftp extends ChannelSession{
           try{
             int _len=len;
             while(_len>0){
-	          if(rwsize<21+handle.length+_len+4) {
-	        	flush();
-	          }
               int sent=sendWRITE(handle, _offset[0], d, s, _len);
               writecount++;
               _offset[0]+=sent;
